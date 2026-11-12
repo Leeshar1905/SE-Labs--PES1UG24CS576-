@@ -1,0 +1,71 @@
+leesha@lab7:~/L6_L7_27_traffic_fine/lab7$ python -m pytest --tb=short -p no:cacheprovider test_traffic_fine.py -k "zero_limit or rejects_negative_amounts or parse_ticket_id_rejects_unicode or extremely_long_amount"
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.2.0, pluggy-1.7.0
+rootdir: /home/user/setapesu26/l6_l7_27_traffic_fine/lab7
+plugins: hypothesis-6.170.15, anyio-4.15.1
+collecting ... collected 19 items / 15 deselected / 4 selected                                
+
+test_traffic_fine.py FFFF                                                [100%]
+
+=================================== FAILURES ===================================
+_________________ test_parse_ticket_id_rejects_unicode_digits __________________
+test_traffic_fine.py:107: in test_parse_ticket_id_rejects_unicode_digits
+    def test_parse_ticket_id_rejects_unicode_digits(prefix, year_chars, serial):
+                   ^^^
+test_traffic_fine.py:110: in test_parse_ticket_id_rejects_unicode_digits
+    assert parse_ticket_id(ticket) is None
+E   AssertionError: assert ('A', 0, 0) is None
+E    +  where ('A', 0, 0) = parse_ticket_id('A-٠٠٠٠-0')
+E   Failing test case: test_parse_ticket_id_rejects_unicode_digits(
+E       prefix='A',
+E       year_chars=['٠', '٠', '٠', '٠'],
+E       serial='0',
+E   )
+__________________ test_total_fines_rejects_negative_amounts ___________________
+test_traffic_fine.py:142: in test_total_fines_rejects_negative_amounts
+    .filter(lambda amounts: any(a < 0 for a in amounts)))
+            ^^^
+test_traffic_fine.py:146: in test_total_fines_rejects_negative_amounts
+    assert total_fines(csv) is None
+E   AssertionError: assert -1 is None
+E    +  where -1 = total_fines('-1')
+E   Failing test case: test_total_fines_rejects_negative_amounts(
+E       amounts=[-1],
+E   )
+____________________ test_total_fines_extremely_long_amount ____________________
+test_traffic_fine.py:162: in test_total_fines_extremely_long_amount
+    def test_total_fines_extremely_long_amount(num_digits):
+                   ^^^
+test_traffic_fine.py:164: in test_total_fines_extremely_long_amount
+    assert total_fines("9" * num_digits) == FINE_CAP
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+traffic_fine.py:6: in total_fines
+    amounts = [int(a) for a in amounts_csv.split(',')]
+               ^^^^^^
+E   ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 4301 digits; use sys.set_int_max_str_digits() to increase the limit
+E   Failing test case: test_total_fines_extremely_long_amount(
+E       num_digits=4301,
+E   )
+_________________________ test_speed_excess_zero_limit _________________________
+test_traffic_fine.py:187: in test_speed_excess_zero_limit
+    @example(0)
+                
+/usr/local/lib/python3.13/site-packages/hypothesis/core.py:1730: in _raise_to_user
+    raise the_error_hypothesis_found
+test_traffic_fine.py:190: in test_speed_excess_zero_limit
+    assert speed_excess(f"{speed}/0") is None
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+traffic_fine.py:14: in speed_excess
+    return (int(speed) - int(limit)) * 100 // int(limit)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ZeroDivisionError: integer division or modulo by zero
+E   Failing explicit example: test_speed_excess_zero_limit(
+E       speed=0,
+E   )
+=========================== short test summary info ============================
+FAILED test_traffic_fine.py::test_parse_ticket_id_rejects_unicode_digits - AssertionError: assert ('A', 0, 0) is None
+FAILED test_traffic_fine.py::test_total_fines_rejects_negative_amounts - AssertionError: assert -1 is None
+FAILED test_traffic_fine.py::test_total_fines_extremely_long_amount - ValueError: Exceeds the limit (4300 digits) for integer string conversion: ...
+FAILED test_traffic_fine.py::test_speed_excess_zero_limit - ZeroDivisionError: integer division or modulo by zero
+======================= 4 failed, 15 deselected in 0.26s =======================
+

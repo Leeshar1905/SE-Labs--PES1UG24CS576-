@@ -1,0 +1,30 @@
+leesha@lab7:~/L6_L7_27_traffic_fine/lab7$ python -m pytest -v -p no:cacheprovider test_traffic_fine.py
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.2.0, pluggy-1.7.0 -- /usr/local/bin/python
+hypothesis profile 'default'
+rootdir: /home/user/setapesu26/l6_l7_27_traffic_fine/lab7
+plugins: hypothesis-6.170.15, anyio-4.15.1
+collecting ... collected 19 items                                                             
+
+test_traffic_fine.py::test_parse_ticket_id_no_crash PASSED               [  5%]
+test_traffic_fine.py::test_parse_ticket_id_valid_input PASSED            [ 10%]
+test_traffic_fine.py::test_parse_ticket_id_wrong_number_of_parts PASSED  [ 15%]
+test_traffic_fine.py::test_parse_ticket_id_non_numeric_year PASSED       [ 21%]
+test_traffic_fine.py::test_parse_ticket_id_rejects_unicode_digits PASSED [ 26%]
+test_traffic_fine.py::test_parse_ticket_id_bad_prefix PASSED             [ 31%]
+test_traffic_fine.py::test_total_fines_no_crash PASSED                   [ 36%]
+test_traffic_fine.py::test_total_fines_valid_input PASSED                [ 42%]
+test_traffic_fine.py::test_total_fines_rejects_negative_amounts PASSED   [ 47%]
+test_traffic_fine.py::test_total_fines_empty_values PASSED               [ 52%]
+test_traffic_fine.py::test_total_fines_rejects_unicode_digits PASSED     [ 57%]
+test_traffic_fine.py::test_total_fines_extremely_long_amount PASSED      [ 63%]
+test_traffic_fine.py::test_speed_excess_no_crash PASSED                  [ 68%]
+test_traffic_fine.py::test_speed_excess_valid_input PASSED               [ 73%]
+test_traffic_fine.py::test_speed_excess_zero_limit PASSED                [ 78%]
+test_traffic_fine.py::test_speed_excess_negative_values PASSED           [ 84%]
+test_traffic_fine.py::test_speed_excess_wrong_format PASSED              [ 89%]
+test_traffic_fine.py::test_speed_excess_rejects_unicode_digits PASSED    [ 94%]
+test_traffic_fine.py::test_speed_excess_extremely_long_number PASSED     [100%]
+
+============================== 19 passed in 1.64s ==============================
+
