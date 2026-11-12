@@ -1,0 +1,39 @@
+leesha@lab7:~/L6_L7_27_traffic_fine/lab7$ python traffic_fine.py
+==== Running parse_ticket_id ====
+Enter a ticket ID (e.g. TF-2024-0456): TF-2024-0456
+Ticket Prefix, Year and Serial: ('TF', 2024, 456)
+
+==== Running total_fines ====
+Enter fine amounts as CSV (e.g. 500,1200,300): 500,1200,300
+Total Fines: 2000
+
+==== Running speed_excess ====
+Enter speed/limit (e.g. 72/60): 72/60
+Percent Over Limit: 20
+
+leesha@lab7:~/L6_L7_27_traffic_fine/lab7$ python traffic_fine.py
+==== Running parse_ticket_id ====
+Enter a ticket ID (e.g. TF-2024-0456): TF2024
+Invalid ticket ID. Expected format PREFIX-YEAR-SERIAL, e.g. TF-2024-0456
+
+==== Running total_fines ====
+Enter fine amounts as CSV (e.g. 500,1200,300): -5000,-300
+Invalid fine amounts. Use non-negative whole numbers separated by commas.
+
+==== Running speed_excess ====
+Enter speed/limit (e.g. 72/60): 50/0
+Invalid reading. Use speed/limit with non-negative numbers and a limit above 0.
+
+leesha@lab7:~/L6_L7_27_traffic_fine/lab7$ python traffic_fine.py
+==== Running parse_ticket_id ====
+Enter a ticket ID (e.g. TF-2024-0456): TF-٢٠٢٤-1
+Invalid ticket ID. Expected format PREFIX-YEAR-SERIAL, e.g. TF-2024-0456
+
+==== Running total_fines ====
+Enter fine amounts as CSV (e.g. 500,1200,300): 9000,2000
+Total Fines: 10000
+
+==== Running speed_excess ====
+Enter speed/limit (e.g. 72/60): 50/60
+Percent Over Limit: 0
+

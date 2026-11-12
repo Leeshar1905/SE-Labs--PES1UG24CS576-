@@ -1,0 +1,539 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.2.0, pluggy-1.7.0 -- /usr/local/bin/python
+hypothesis profile 'default'
+rootdir: /home/user/setapesu26/l6_l7_27_traffic_fine/lab7
+plugins: hypothesis-6.170.15, anyio-4.15.1
+collecting ... collected 19 items
+
+test_traffic_fine.py::test_parse_ticket_id_no_crash FAILED               [  5%]
+test_traffic_fine.py::test_parse_ticket_id_valid_input PASSED            [ 10%]
+test_traffic_fine.py::test_parse_ticket_id_wrong_number_of_parts FAILED  [ 15%]
+test_traffic_fine.py::test_parse_ticket_id_non_numeric_year FAILED       [ 21%]
+test_traffic_fine.py::test_parse_ticket_id_rejects_unicode_digits FAILED [ 26%]
+test_traffic_fine.py::test_parse_ticket_id_bad_prefix FAILED             [ 31%]
+test_traffic_fine.py::test_total_fines_no_crash FAILED                   [ 36%]
+test_traffic_fine.py::test_total_fines_valid_input PASSED                [ 42%]
+test_traffic_fine.py::test_total_fines_rejects_negative_amounts FAILED   [ 47%]
+test_traffic_fine.py::test_total_fines_empty_values FAILED               [ 52%]
+test_traffic_fine.py::test_total_fines_rejects_unicode_digits FAILED     [ 57%]
+test_traffic_fine.py::test_total_fines_extremely_long_amount FAILED      [ 63%]
+test_traffic_fine.py::test_speed_excess_no_crash FAILED                  [ 68%]
+test_traffic_fine.py::test_speed_excess_valid_input FAILED               [ 73%]
+test_traffic_fine.py::test_speed_excess_zero_limit FAILED                [ 78%]
+test_traffic_fine.py::test_speed_excess_negative_values FAILED           [ 84%]
+test_traffic_fine.py::test_speed_excess_wrong_format FAILED              [ 89%]
+test_traffic_fine.py::test_speed_excess_rejects_unicode_digits FAILED    [ 94%]
+test_traffic_fine.py::test_speed_excess_extremely_long_number FAILED     [100%]
+
+=================================== FAILURES ===================================
+________________________ test_parse_ticket_id_no_crash _________________________
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/test_traffic_fine.py", line 74, in test_parse_ticket_id_no_crash
+  |     @settings(max_examples=300)
+  |                    ^^^
+  | ExceptionGroup: Hypothesis found 3 distinct failures. (3 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/test_traffic_fine.py", line 77, in test_parse_ticket_id_no_crash
+    |     result = parse_ticket_id(s)
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/traffic_fine.py", line 2, in parse_ticket_id
+    |     prefix, year, serial = ticket_id.split('-')
+    |                            ~~~~~~~~~~~~~~~^^^^^
+    | TypeError: a bytes-like object is required, not 'str'
+    | Failing test case: test_parse_ticket_id_no_crash(
+    |     s=b'',
+    | )
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/test_traffic_fine.py", line 77, in test_parse_ticket_id_no_crash
+    |     result = parse_ticket_id(s)
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/traffic_fine.py", line 2, in parse_ticket_id
+    |     prefix, year, serial = ticket_id.split('-')
+    |     ^^^^^^^^^^^^^^^^^^^^
+    | ValueError: not enough values to unpack (expected 3, got 1)
+    | Failing test case: test_parse_ticket_id_no_crash(
+    |     s='',
+    | )
+    +---------------- 3 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/test_traffic_fine.py", line 77, in test_parse_ticket_id_no_crash
+    |     result = parse_ticket_id(s)
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/traffic_fine.py", line 2, in parse_ticket_id
+    |     prefix, year, serial = ticket_id.split('-')
+    |                            ^^^^^^^^^^^^^^^
+    | AttributeError: 'NoneType' object has no attribute 'split'
+    | Failing test case: test_parse_ticket_id_no_crash(
+    |     s=None,
+    | )
+    +------------------------------------
+__________________ test_parse_ticket_id_wrong_number_of_parts __________________
+
+    @given(st.lists(st.text(alphabet=string.ascii_letters + string.digits),
+>                   max_size=6).filter(lambda parts: len(parts) != 3))
+                   ^^^
+
+test_traffic_fine.py:89: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.13/site-packages/hypothesis/core.py:1730: in _raise_to_user
+    raise the_error_hypothesis_found
+test_traffic_fine.py:94: in test_parse_ticket_id_wrong_number_of_parts
+    assert parse_ticket_id("-".join(parts)) is None
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ticket_id = 'TF2024'
+
+    def parse_ticket_id(ticket_id):
+>       prefix, year, serial = ticket_id.split('-')
+        ^^^^^^^^^^^^^^^^^^^^
+E       ValueError: not enough values to unpack (expected 3, got 1)
+E       (note: 1 other explicit example also failed with this error; use Verbosity.verbose to view)
+E       Failing explicit example: test_parse_ticket_id_wrong_number_of_parts(
+E           parts=['TF2024'],
+E       )
+
+traffic_fine.py:2: ValueError
+____________________ test_parse_ticket_id_non_numeric_year _____________________
+
+    @given(ascii_letters,
+>          st.text(alphabet=string.ascii_letters + string.punctuation.replace("-", ""),
+                   ^^^
+                   min_size=1, max_size=4),
+           ascii_digits)
+
+test_traffic_fine.py:98: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_traffic_fine.py:103: in test_parse_ticket_id_non_numeric_year
+    assert parse_ticket_id(f"{prefix}-{year}-{serial}") is None
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+ticket_id = 'A-:-0'
+
+    def parse_ticket_id(ticket_id):
+        prefix, year, serial = ticket_id.split('-')
+>       return prefix.upper(), int(year), int(serial)
+                               ^^^^^^^^^
+E       ValueError: invalid literal for int() with base 10: ':'
+E       Failing test case: test_parse_ticket_id_non_numeric_year(
+E           prefix='A',
+E           year=':',
+E           serial='0',
+E       )
+
+traffic_fine.py:3: ValueError
+_________________ test_parse_ticket_id_rejects_unicode_digits __________________
+
+    @given(ascii_letters, st.lists(unicode_digit, min_size=4, max_size=4), ascii_digits)
+>   def test_parse_ticket_id_rejects_unicode_digits(prefix, year_chars, serial):
+                   ^^^
+
+test_traffic_fine.py:107: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+prefix = 'A', year_chars = ['٠', '٠', '٠', '٠'], serial = '0'
+
+    @given(ascii_letters, st.lists(unicode_digit, min_size=4, max_size=4), ascii_digits)
+    def test_parse_ticket_id_rejects_unicode_digits(prefix, year_chars, serial):
+        """Non-ASCII digits (e.g. '٢٠٢٤') must not be silently accepted as a year."""
+        ticket = f"{prefix}-{''.join(year_chars)}-{serial}"
+>       assert parse_ticket_id(ticket) is None
+E       AssertionError: assert ('A', 0, 0) is None
+E        +  where ('A', 0, 0) = parse_ticket_id('A-٠٠٠٠-0')
+E       Failing test case: test_parse_ticket_id_rejects_unicode_digits(
+E           prefix='A',
+E           year_chars=['٠', '٠', '٠', '٠'],
+E           serial='0',
+E       )
+
+test_traffic_fine.py:110: AssertionError
+_______________________ test_parse_ticket_id_bad_prefix ________________________
+
+    @given(st.text(alphabet=string.digits + string.punctuation.replace("-", "") + " ",
+>                  max_size=4),
+                   ^^^
+           st.integers(1000, 9999), ascii_digits)
+
+test_traffic_fine.py:114: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.13/site-packages/hypothesis/core.py:1730: in _raise_to_user
+    raise the_error_hypothesis_found
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+prefix = '', year = 2024, serial = '456'
+
+    @given(st.text(alphabet=string.digits + string.punctuation.replace("-", "") + " ",
+                   max_size=4),
+           st.integers(1000, 9999), ascii_digits)
+    @example("", 2024, "456")
+    def test_parse_ticket_id_bad_prefix(prefix, year, serial):
+        """The prefix must be letters only and not empty."""
+>       assert parse_ticket_id(f"{prefix}-{year}-{serial}") is None
+E       AssertionError: assert ('', 2024, 456) is None
+E        +  where ('', 2024, 456) = parse_ticket_id('-2024-456')
+E       Failing explicit example: test_parse_ticket_id_bad_prefix(
+E           prefix='',
+E           year=2024,
+E           serial='456',
+E       )
+
+test_traffic_fine.py:119: AssertionError
+__________________________ test_total_fines_no_crash ___________________________
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/test_traffic_fine.py", line 127, in test_total_fines_no_crash
+  |     @settings(max_examples=300)
+  |                    ^^^
+  | ExceptionGroup: Hypothesis found 3 distinct failures. (3 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/test_traffic_fine.py", line 130, in test_total_fines_no_crash
+    |     result = total_fines(s)
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/traffic_fine.py", line 6, in total_fines
+    |     amounts = [int(a) for a in amounts_csv.split(',')]
+    |                                ~~~~~~~~~~~~~~~~~^^^^^
+    | TypeError: a bytes-like object is required, not 'str'
+    | Failing test case: test_total_fines_no_crash(
+    |     s=b'',
+    | )
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/test_traffic_fine.py", line 130, in test_total_fines_no_crash
+    |     result = total_fines(s)
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/traffic_fine.py", line 6, in total_fines
+    |     amounts = [int(a) for a in amounts_csv.split(',')]
+    |                ~~~^^^
+    | ValueError: invalid literal for int() with base 10: ''
+    | Failing test case: test_total_fines_no_crash(
+    |     s='',
+    | )
+    +---------------- 3 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/test_traffic_fine.py", line 130, in test_total_fines_no_crash
+    |     result = total_fines(s)
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/traffic_fine.py", line 6, in total_fines
+    |     amounts = [int(a) for a in amounts_csv.split(',')]
+    |                                ^^^^^^^^^^^^^^^^^
+    | AttributeError: 'NoneType' object has no attribute 'split'
+    | Failing test case: test_total_fines_no_crash(
+    |     s=None,
+    | )
+    +------------------------------------
+__________________ test_total_fines_rejects_negative_amounts ___________________
+
+    @given(st.lists(st.integers(min_value=-20000, max_value=20000), min_size=1, max_size=10)
+>          .filter(lambda amounts: any(a < 0 for a in amounts)))
+                   ^^^
+
+test_traffic_fine.py:142: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+amounts = [-1]
+
+    @given(st.lists(st.integers(min_value=-20000, max_value=20000), min_size=1, max_size=10)
+           .filter(lambda amounts: any(a < 0 for a in amounts)))
+    def test_total_fines_rejects_negative_amounts(amounts):
+        """A negative fine is invalid - it must not reduce (or flip) the total."""
+        csv = ",".join(str(a) for a in amounts)
+>       assert total_fines(csv) is None
+E       AssertionError: assert -1 is None
+E        +  where -1 = total_fines('-1')
+E       Failing test case: test_total_fines_rejects_negative_amounts(
+E           amounts=[-1],
+E       )
+
+test_traffic_fine.py:146: AssertionError
+________________________ test_total_fines_empty_values _________________________
+
+    @given(st.sampled_from(["", " ", ",", "500,", ",500", "500,,300", " , "]))
+>   def test_total_fines_empty_values(csv):
+                   ^^^
+
+test_traffic_fine.py:150: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_traffic_fine.py:152: in test_total_fines_empty_values
+    assert total_fines(csv) is None
+           ^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+amounts_csv = ''
+
+    def total_fines(amounts_csv):
+>       amounts = [int(a) for a in amounts_csv.split(',')]
+                   ^^^^^^
+E       ValueError: invalid literal for int() with base 10: ''
+E       Failing test case: test_total_fines_empty_values(
+E           csv='',
+E       )
+
+traffic_fine.py:6: ValueError
+___________________ test_total_fines_rejects_unicode_digits ____________________
+
+    @given(st.lists(unicode_digit, min_size=1, max_size=5))
+>   def test_total_fines_rejects_unicode_digits(chars):
+                   ^^^
+
+test_traffic_fine.py:156: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+chars = ['٠']
+
+    @given(st.lists(unicode_digit, min_size=1, max_size=5))
+    def test_total_fines_rejects_unicode_digits(chars):
+        """Non-ASCII digits are not valid amounts."""
+>       assert total_fines("100," + "".join(chars)) is None
+E       AssertionError: assert 100 is None
+E        +  where 100 = total_fines(('100,' + '٠'))
+E        +    where '٠' = <built-in method join of str object at 0x1330958>(['٠'])
+E        +      where <built-in method join of str object at 0x1330958> = ''.join
+E       Failing test case: test_total_fines_rejects_unicode_digits(
+E           chars=['٠'],
+E       )
+
+test_traffic_fine.py:158: AssertionError
+____________________ test_total_fines_extremely_long_amount ____________________
+
+    @given(st.integers(min_value=4301, max_value=6000))
+>   def test_total_fines_extremely_long_amount(num_digits):
+                   ^^^
+
+test_traffic_fine.py:162: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_traffic_fine.py:164: in test_total_fines_extremely_long_amount
+    assert total_fines("9" * num_digits) == FINE_CAP
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+amounts_csv = '999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999...9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999'
+
+    def total_fines(amounts_csv):
+>       amounts = [int(a) for a in amounts_csv.split(',')]
+                   ^^^^^^
+E       ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 4301 digits; use sys.set_int_max_str_digits() to increase the limit
+E       Failing test case: test_total_fines_extremely_long_amount(
+E           num_digits=4301,
+E       )
+
+traffic_fine.py:6: ValueError
+__________________________ test_speed_excess_no_crash __________________________
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/test_traffic_fine.py", line 172, in test_speed_excess_no_crash
+  |     @settings(max_examples=300)
+  |                    ^^^
+  | ExceptionGroup: Hypothesis found 3 distinct failures. (3 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/test_traffic_fine.py", line 175, in test_speed_excess_no_crash
+    |     result = speed_excess(s)
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/traffic_fine.py", line 13, in speed_excess
+    |     speed, limit = reading.split('/')
+    |                    ~~~~~~~~~~~~~^^^^^
+    | TypeError: a bytes-like object is required, not 'str'
+    | Failing test case: test_speed_excess_no_crash(
+    |     s=b'',
+    | )
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/test_traffic_fine.py", line 175, in test_speed_excess_no_crash
+    |     result = speed_excess(s)
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/traffic_fine.py", line 13, in speed_excess
+    |     speed, limit = reading.split('/')
+    |     ^^^^^^^^^^^^
+    | ValueError: not enough values to unpack (expected 2, got 1)
+    | Failing test case: test_speed_excess_no_crash(
+    |     s='',
+    | )
+    +---------------- 3 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/test_traffic_fine.py", line 175, in test_speed_excess_no_crash
+    |     result = speed_excess(s)
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/traffic_fine.py", line 13, in speed_excess
+    |     speed, limit = reading.split('/')
+    |                    ^^^^^^^^^^^^^
+    | AttributeError: 'NoneType' object has no attribute 'split'
+    | Failing test case: test_speed_excess_no_crash(
+    |     s=None,
+    | )
+    +------------------------------------
+________________________ test_speed_excess_valid_input _________________________
+
+    @given(st.integers(min_value=0, max_value=1000), st.integers(min_value=1, max_value=300))
+>   def test_speed_excess_valid_input(speed, limit):
+                   ^^^
+
+test_traffic_fine.py:180: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+speed = 0, limit = 1
+
+    @given(st.integers(min_value=0, max_value=1000), st.integers(min_value=1, max_value=300))
+    def test_speed_excess_valid_input(speed, limit):
+        """Valid readings give the floor percentage over the limit (0 if not over)."""
+        expected = max(0, (speed - limit) * 100 // limit)
+>       assert speed_excess(f"{speed}/{limit}") == expected
+E       AssertionError: assert -100 == 0
+E        +  where -100 = speed_excess('0/1')
+E       Failing test case: test_speed_excess_valid_input(
+E           speed=0,
+E           limit=1,
+E       )
+
+test_traffic_fine.py:183: AssertionError
+_________________________ test_speed_excess_zero_limit _________________________
+
+    @given(st.integers(min_value=0, max_value=1000))
+>   @example(0)
+                
+
+test_traffic_fine.py:187: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.13/site-packages/hypothesis/core.py:1730: in _raise_to_user
+    raise the_error_hypothesis_found
+test_traffic_fine.py:190: in test_speed_excess_zero_limit
+    assert speed_excess(f"{speed}/0") is None
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+reading = '0/0'
+
+    def speed_excess(reading):
+        speed, limit = reading.split('/')
+>       return (int(speed) - int(limit)) * 100 // int(limit)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ZeroDivisionError: integer division or modulo by zero
+E       Failing explicit example: test_speed_excess_zero_limit(
+E           speed=0,
+E       )
+
+traffic_fine.py:14: ZeroDivisionError
+______________________ test_speed_excess_negative_values _______________________
+  + Exception Group Traceback (most recent call last):
+  |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/test_traffic_fine.py", line 194, in test_speed_excess_negative_values
+  |     st.integers(min_value=-300, max_value=300))
+  |             ^^^
+  | ExceptionGroup: Hypothesis found 3 distinct failures. (3 sub-exceptions)
+  +-+---------------- 1 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/test_traffic_fine.py", line 199, in test_speed_excess_negative_values
+    |     assert result is None
+    | AssertionError: assert -100 is None
+    | Failing test case: test_speed_excess_negative_values(
+    |     speed=0,
+    |     limit=-1,
+    | )
+    +---------------- 2 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/test_traffic_fine.py", line 201, in test_speed_excess_negative_values
+    |     assert result is not None and result >= 0
+    | AssertionError: assert (-100 is not None and -100 >= 0)
+    | Failing test case: test_speed_excess_negative_values(
+    |     speed=0,
+    |     limit=1,
+    | )
+    +---------------- 3 ----------------
+    | Traceback (most recent call last):
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/test_traffic_fine.py", line 197, in test_speed_excess_negative_values
+    |     result = speed_excess(f"{speed}/{limit}")
+    |   File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/traffic_fine.py", line 14, in speed_excess
+    |     return (int(speed) - int(limit)) * 100 // int(limit)
+    |            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^~~~~~~~~~~~
+    | ZeroDivisionError: integer division or modulo by zero
+    | Failing test case: test_speed_excess_negative_values(
+    |     speed=0,
+    |     limit=0,
+    | )
+    +------------------------------------
+________________________ test_speed_excess_wrong_format ________________________
+
+    @given(st.text(alphabet=string.digits + "/", max_size=10)
+>          .filter(lambda s: s.count("/") != 1))
+                   ^^^
+
+test_traffic_fine.py:205: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.13/site-packages/hypothesis/core.py:1730: in _raise_to_user
+    raise the_error_hypothesis_found
+test_traffic_fine.py:210: in test_speed_excess_wrong_format
+    assert speed_excess(reading) is None
+           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+reading = '72'
+
+    def speed_excess(reading):
+>       speed, limit = reading.split('/')
+        ^^^^^^^^^^^^
+E       ValueError: not enough values to unpack (expected 2, got 1)
+E       (note: 1 other explicit example also failed with this error; use Verbosity.verbose to view)
+E       Failing explicit example: test_speed_excess_wrong_format(
+E           reading='72',
+E       )
+
+traffic_fine.py:13: ValueError
+___________________ test_speed_excess_rejects_unicode_digits ___________________
+
+    @given(st.lists(unicode_digit, min_size=1, max_size=3))
+>   def test_speed_excess_rejects_unicode_digits(chars):
+                   ^^^
+
+test_traffic_fine.py:214: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+chars = ['٠']
+
+    @given(st.lists(unicode_digit, min_size=1, max_size=3))
+    def test_speed_excess_rejects_unicode_digits(chars):
+        """Non-ASCII digits are not valid speeds."""
+>       assert speed_excess("".join(chars) + "/60") is None
+E       AssertionError: assert -100 is None
+E        +  where -100 = speed_excess(('٠' + '/60'))
+E        +    where '٠' = <built-in method join of str object at 0x1330958>(['٠'])
+E        +      where <built-in method join of str object at 0x1330958> = ''.join
+E       Failing test case: test_speed_excess_rejects_unicode_digits(
+E           chars=['٠'],
+E       )
+
+test_traffic_fine.py:216: AssertionError
+___________________ test_speed_excess_extremely_long_number ____________________
+
+    @given(st.integers(min_value=4301, max_value=6000))
+>   def test_speed_excess_extremely_long_number(num_digits):
+                   ^^^
+
+test_traffic_fine.py:220: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+test_traffic_fine.py:222: in test_speed_excess_extremely_long_number
+    result = speed_excess("9" * num_digits + "/60")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+reading = '999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999...9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999/60'
+
+    def speed_excess(reading):
+        speed, limit = reading.split('/')
+>       return (int(speed) - int(limit)) * 100 // int(limit)
+                ^^^^^^^^^^
+E       ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 4301 digits; use sys.set_int_max_str_digits() to increase the limit
+E       Failing test case: test_speed_excess_extremely_long_number(
+E           num_digits=4301,
+E       )
+
+traffic_fine.py:14: ValueError
+=========================== short test summary info ============================
+FAILED test_traffic_fine.py::test_parse_ticket_id_no_crash - ExceptionGroup: ...
+FAILED test_traffic_fine.py::test_parse_ticket_id_wrong_number_of_parts - Val...
+FAILED test_traffic_fine.py::test_parse_ticket_id_non_numeric_year - ValueErr...
+FAILED test_traffic_fine.py::test_parse_ticket_id_rejects_unicode_digits - As...
+FAILED test_traffic_fine.py::test_parse_ticket_id_bad_prefix - AssertionError...
+FAILED test_traffic_fine.py::test_total_fines_no_crash - ExceptionGroup: Hypo...
+FAILED test_traffic_fine.py::test_total_fines_rejects_negative_amounts - Asse...
+FAILED test_traffic_fine.py::test_total_fines_empty_values - ValueError: inva...
+FAILED test_traffic_fine.py::test_total_fines_rejects_unicode_digits - Assert...
+FAILED test_traffic_fine.py::test_total_fines_extremely_long_amount - ValueEr...
+FAILED test_traffic_fine.py::test_speed_excess_no_crash - ExceptionGroup: Hyp...
+FAILED test_traffic_fine.py::test_speed_excess_valid_input - AssertionError: ...
+FAILED test_traffic_fine.py::test_speed_excess_zero_limit - ZeroDivisionError...
+FAILED test_traffic_fine.py::test_speed_excess_negative_values - ExceptionGro...
+FAILED test_traffic_fine.py::test_speed_excess_wrong_format - ValueError: not...
+FAILED test_traffic_fine.py::test_speed_excess_rejects_unicode_digits - Asser...
+FAILED test_traffic_fine.py::test_speed_excess_extremely_long_number - ValueE...
+========================= 17 failed, 2 passed in 0.98s =========================

@@ -1,0 +1,36 @@
+leesha@lab7:~/L6_L7_27_traffic_fine/lab7$ python traffic_fine.py
+==== Running parse_ticket_id ====
+Enter a ticket ID (e.g. TF-2024-0456): TF2024
+Traceback (most recent call last):
+  File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/traffic_fine.py", line 33, in <module>
+    main()
+    ~~~~^^
+  File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/traffic_fine.py", line 19, in main
+    result = parse_ticket_id(user_input)
+  File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/traffic_fine.py", line 2, in parse_ticket_id
+    prefix, year, serial = ticket_id.split('-')
+    ^^^^^^^^^^^^^^^^^^^^
+ValueError: not enough values to unpack (expected 3, got 1)
+
+leesha@lab7:~/L6_L7_27_traffic_fine/lab7$ python traffic_fine.py
+==== Running parse_ticket_id ====
+Enter a ticket ID (e.g. TF-2024-0456): TF-2024-0001
+Ticket Prefix, Year and Serial: ('TF', 2024, 1)
+
+==== Running total_fines ====
+Enter fine amounts as CSV (e.g. 500,1200,300): 100,200
+Total Fines: 300
+
+==== Running speed_excess ====
+Enter speed/limit (e.g. 72/60): 50/0
+Traceback (most recent call last):
+  File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/traffic_fine.py", line 33, in <module>
+    main()
+    ~~~~^^
+  File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/traffic_fine.py", line 29, in main
+    result = speed_excess(user_input)
+  File "/home/user/setapesu26/l6_l7_27_traffic_fine/lab7/traffic_fine.py", line 14, in speed_excess
+    return (int(speed) - int(limit)) * 100 // int(limit)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^~~~~~~~~~~~
+ZeroDivisionError: integer division or modulo by zero
+

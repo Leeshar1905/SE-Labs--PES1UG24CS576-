@@ -1,0 +1,48 @@
+leesha@lab7:~/L6_L7_27_traffic_fine/lab7$ python -m pytest -v --tb=no -p no:cacheprovider test_traffic_fine.py
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.2.0, pluggy-1.7.0 -- /usr/local/bin/python
+hypothesis profile 'default'
+rootdir: /home/user/setapesu26/l6_l7_27_traffic_fine/lab7
+plugins: hypothesis-6.170.15, anyio-4.15.1
+collecting ... collected 19 items                                                             
+
+test_traffic_fine.py::test_parse_ticket_id_no_crash FAILED               [  5%]
+test_traffic_fine.py::test_parse_ticket_id_valid_input PASSED            [ 10%]
+test_traffic_fine.py::test_parse_ticket_id_wrong_number_of_parts FAILED  [ 15%]
+test_traffic_fine.py::test_parse_ticket_id_non_numeric_year FAILED       [ 21%]
+test_traffic_fine.py::test_parse_ticket_id_rejects_unicode_digits FAILED [ 26%]
+test_traffic_fine.py::test_parse_ticket_id_bad_prefix FAILED             [ 31%]
+test_traffic_fine.py::test_total_fines_no_crash FAILED                   [ 36%]
+test_traffic_fine.py::test_total_fines_valid_input PASSED                [ 42%]
+test_traffic_fine.py::test_total_fines_rejects_negative_amounts FAILED   [ 47%]
+test_traffic_fine.py::test_total_fines_empty_values FAILED               [ 52%]
+test_traffic_fine.py::test_total_fines_rejects_unicode_digits FAILED     [ 57%]
+test_traffic_fine.py::test_total_fines_extremely_long_amount FAILED      [ 63%]
+test_traffic_fine.py::test_speed_excess_no_crash FAILED                  [ 68%]
+test_traffic_fine.py::test_speed_excess_valid_input FAILED               [ 73%]
+test_traffic_fine.py::test_speed_excess_zero_limit FAILED                [ 78%]
+test_traffic_fine.py::test_speed_excess_negative_values FAILED           [ 84%]
+test_traffic_fine.py::test_speed_excess_wrong_format FAILED              [ 89%]
+test_traffic_fine.py::test_speed_excess_rejects_unicode_digits FAILED    [ 94%]
+test_traffic_fine.py::test_speed_excess_extremely_long_number FAILED     [100%]
+
+=========================== short test summary info ============================
+FAILED test_traffic_fine.py::test_parse_ticket_id_no_crash - ExceptionGroup: Hypothesis found 3 distinct failures. (3 sub-exceptions)
+FAILED test_traffic_fine.py::test_parse_ticket_id_wrong_number_of_parts - ValueError: not enough values to unpack (expected 3, got 1)
+FAILED test_traffic_fine.py::test_parse_ticket_id_non_numeric_year - ValueError: invalid literal for int() with base 10: ':'
+FAILED test_traffic_fine.py::test_parse_ticket_id_rejects_unicode_digits - AssertionError: assert ('A', 0, 0) is None
+FAILED test_traffic_fine.py::test_parse_ticket_id_bad_prefix - AssertionError: assert ('', 2024, 456) is None
+FAILED test_traffic_fine.py::test_total_fines_no_crash - ExceptionGroup: Hypothesis found 3 distinct failures. (3 sub-exceptions)
+FAILED test_traffic_fine.py::test_total_fines_rejects_negative_amounts - AssertionError: assert -1 is None
+FAILED test_traffic_fine.py::test_total_fines_empty_values - ValueError: invalid literal for int() with base 10: ''
+FAILED test_traffic_fine.py::test_total_fines_rejects_unicode_digits - AssertionError: assert 100 is None
+FAILED test_traffic_fine.py::test_total_fines_extremely_long_amount - ValueError: Exceeds the limit (4300 digits) for integer string conversion: ...
+FAILED test_traffic_fine.py::test_speed_excess_no_crash - ExceptionGroup: Hypothesis found 3 distinct failures. (3 sub-exceptions)
+FAILED test_traffic_fine.py::test_speed_excess_valid_input - AssertionError: assert -100 == 0
+FAILED test_traffic_fine.py::test_speed_excess_zero_limit - ZeroDivisionError: integer division or modulo by zero
+FAILED test_traffic_fine.py::test_speed_excess_negative_values - ExceptionGroup: Hypothesis found 3 distinct failures. (3 sub-exceptions)
+FAILED test_traffic_fine.py::test_speed_excess_wrong_format - ValueError: not enough values to unpack (expected 2, got 1)
+FAILED test_traffic_fine.py::test_speed_excess_rejects_unicode_digits - AssertionError: assert -100 is None
+FAILED test_traffic_fine.py::test_speed_excess_extremely_long_number - ValueError: Exceeds the limit (4300 digits) for integer string conversion: ...
+========================= 17 failed, 2 passed in 4.26s =========================
+

@@ -1,0 +1,34 @@
+leesha@lab7:~/L6_L7_27_traffic_fine/lab7$ python --version
+Python 3.13.18
+
+leesha@lab7:~/L6_L7_27_traffic_fine/lab7$ git --no-pager log --oneline -1 -- traffic_fine.py
+09d47d2 Add Lab 7 scenario
+
+leesha@lab7:~/L6_L7_27_traffic_fine/lab7$ git status --short traffic_fine.py
+
+leesha@lab7:~/L6_L7_27_traffic_fine/lab7$ python traffic_fine.py
+==== Running parse_ticket_id ====
+Enter a ticket ID (e.g. TF-2024-0456): TF-2024-0456
+Ticket Prefix, Year and Serial: ('TF', 2024, 456)
+
+==== Running total_fines ====
+Enter fine amounts as CSV (e.g. 500,1200,300): 500,1200,300
+Total Fines: 2000
+
+==== Running speed_excess ====
+Enter speed/limit (e.g. 72/60): 72/60
+Percent Over Limit: 20
+
+leesha@lab7:~/L6_L7_27_traffic_fine/lab7$ python traffic_fine.py
+==== Running parse_ticket_id ====
+Enter a ticket ID (e.g. TF-2024-0456): TF-2024-0001
+Ticket Prefix, Year and Serial: ('TF', 2024, 1)
+
+==== Running total_fines ====
+Enter fine amounts as CSV (e.g. 500,1200,300): -5000,-300
+Total Fines: -5300
+
+==== Running speed_excess ====
+Enter speed/limit (e.g. 72/60): 50/60
+Percent Over Limit: -17
+
